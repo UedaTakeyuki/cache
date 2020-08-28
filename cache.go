@@ -1,9 +1,10 @@
-/*
- * Primitive Cach feature
- *
- * Last used last deleted [string]interface{}.
- *
- */
+//
+// Primitive Cach feature
+//
+// Last used last deleted [string]interface{}.
+//
+// Copyright 2020 Aterier UEDA
+// Author: Takeyuki UEDA
 
 package cache
 
