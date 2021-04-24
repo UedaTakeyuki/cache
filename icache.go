@@ -1,10 +1,10 @@
 //
-// Primitive Cach feature
+// Primitive Cach feature with integer key
 //
-// Last used last deleted [string]interface{}.
+// Last used last deleted [int]interface{}.
 //
-// Copyright 2020 Aterier UEDA
-// Author: Takeyuki UEDA
+// Copyright 2021 Aterier UEDA
+// Author: Dr. Takeyuki UEDA
 
 package cache
 
@@ -14,21 +14,21 @@ import (
 
 type Cache struct {
 	maxSize int
-	body    map[string]interface{}
-	fifo    []string
+	body    map[int]interface{}
+	fifo    []int
 }
 
 func NewCache(maxSize int) (*Cache, error) {
 	cache := Cache{} // initialize
 	cache.maxSize = maxSize
-	cache.body = map[string]interface{}{}
+	cache.body = map[int]interface{}{}
 	return &cache, nil
 }
 
 /*
  * AddOrReplace
  */
-func (cache Cache) AddOrReplace(key string, entity interface{}) interface{} { // Add & Replace
+func (cache Cache) AddOrReplace(key int, entity interface{}) interface{} { // Add & Replace
 	_, isExist := cache.body[key]
 	if isExist {
 		// remove ex CacheOrder
@@ -53,7 +53,7 @@ func (cache Cache) AddOrReplace(key string, entity interface{}) interface{} { //
 /*
  * Get
  */
-func (cache Cache) Get(key string) (result interface{}, isExist bool) {
+func (cache Cache) Get(key int) (result interface{}, isExist bool) {
 	result, isExist = cache.body[key]
 	if isExist {
 		fmt.Println("cache hit!")
@@ -73,7 +73,7 @@ func (cache Cache) Get(key string) (result interface{}, isExist bool) {
 /*
  * Delete
  */
-func (cache Cache) Delete(key string) {
+func (cache Cache) Delete(key int) {
 	// remove from CacheTable
 	delete(cache.body, key)
 	// remove from CacheOrder
