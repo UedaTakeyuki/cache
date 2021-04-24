@@ -12,14 +12,14 @@ import (
 	"fmt"
 )
 
-type Cache struct {
+type IntCache struct {
 	maxSize int
 	body    map[int]interface{}
 	fifo    []int
 }
 
-func NewCache(maxSize int) (*Cache, error) {
-	cache := Cache{} // initialize
+func NewIntCache(maxSize int) (*IntCache, error) {
+	cache := IntCache{} // initialize
 	cache.maxSize = maxSize
 	cache.body = map[int]interface{}{}
 	return &cache, nil
@@ -28,7 +28,7 @@ func NewCache(maxSize int) (*Cache, error) {
 /*
  * AddOrReplace
  */
-func (cache Cache) AddOrReplace(key int, entity interface{}) interface{} { // Add & Replace
+func (cache IntCache) AddOrReplace(key int, entity interface{}) interface{} { // Add & Replace
 	_, isExist := cache.body[key]
 	if isExist {
 		// remove ex CacheOrder
@@ -53,7 +53,7 @@ func (cache Cache) AddOrReplace(key int, entity interface{}) interface{} { // Ad
 /*
  * Get
  */
-func (cache Cache) Get(key int) (result interface{}, isExist bool) {
+func (cache IntCache) Get(key int) (result interface{}, isExist bool) {
 	result, isExist = cache.body[key]
 	if isExist {
 		fmt.Println("cache hit!")
@@ -73,7 +73,7 @@ func (cache Cache) Get(key int) (result interface{}, isExist bool) {
 /*
  * Delete
  */
-func (cache Cache) Delete(key int) {
+func (cache IntCache) Delete(key int) {
 	// remove from CacheTable
 	delete(cache.body, key)
 	// remove from CacheOrder
@@ -88,7 +88,7 @@ func (cache Cache) Delete(key int) {
 /*
  * DumpKeys
  */
-func (cache Cache) DumpKeys() {
+func (cache IntCache) DumpKeys() {
 	fmt.Println("*** Dump Cache Keys ***")
 	for key, _ := range cache.body {
 		fmt.Println(key)
