@@ -24,7 +24,7 @@ type BiKeyCache struct {
 	fifo          []string
 }
 
-func NewCache(maxSize int) (*Cache, error) {
+func NewBiKeyCache(maxSize int) (*Cache, error) {
 	cache := Cache{} // initialize
 	cache.maxSize = maxSize
 	cache.body = map[string]interface{}{}
