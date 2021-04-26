@@ -24,8 +24,8 @@ type BiKeyCache struct {
 	fifo          []string
 }
 
-func NewBiKeyCache(maxSize int) (*Cache, error) {
-	cache := Cache{} // initialize
+func NewBiKeyCache(maxSize int) (*BiKeyCache, error) {
+	cache := BiKeyCache{} // initialize
 	cache.maxSize = maxSize
 	cache.body = map[string]interface{}{}
 	return &cache, nil
@@ -34,7 +34,7 @@ func NewBiKeyCache(maxSize int) (*Cache, error) {
 /*
  * AddOrReplace : without 2nd key
  */
-func (cache Cache) AddOrReplace(key string, entity interface{}) interface{} { // Add & Replace
+func (cache BiKeyCache) AddOrReplace(key string, entity interface{}) interface{} { // Add & Replace
 	_, isExist := cache.body[key]
 	if isExist {
 		// remove ex CacheOrder
@@ -59,7 +59,7 @@ func (cache Cache) AddOrReplace(key string, entity interface{}) interface{} { //
 /*
  * AddOrReplaceWith2ndKey
  */
-func (cache Cache) AddOrReplaceWith2ndKey(key1st string, key2nd string, entity interface{}) interface{} {
+func (cache BiKeyCache) AddOrReplaceWith2ndKey(key1st string, key2nd string, entity interface{}) interface{} {
   // Add or Replace body
   cache.AddOrReplace(key1st, entity)
   
@@ -93,7 +93,7 @@ func (cache Cache) AddOrReplaceWith2ndKey(key1st string, key2nd string, entity i
 /*
  * Get : by 1st key
  */
-func (cache Cache) Get(key string) (result interface{}, isExist bool) {
+func (cache BiKeyCache) Get(key string) (result interface{}, isExist bool) {
 	result, isExist = cache.body[key]
 	if isExist {
 		fmt.Println("cache hit!")
@@ -113,7 +113,7 @@ func (cache Cache) Get(key string) (result interface{}, isExist bool) {
 /*
  * GetBy2ndKey
  */
-func (cache Cache) GetBy2ndKey(key2nd string) (result interface{}, isExist bool) {
+func (cache BiKeyCache) GetBy2ndKey(key2nd string) (result interface{}, isExist bool) {
   key1st, isExist := cache.bikeys[key2nd]
 	if isExist {
     result, isExist = cache.Get(key1st)
@@ -127,7 +127,7 @@ func (cache Cache) GetBy2ndKey(key2nd string) (result interface{}, isExist bool)
 /*
  * Delete : by 1st key
  */
-func (cache Cache) Delete(key1st string) {
+func (cache BiKeyCache) Delete(key1st string) {
 	// remove from CacheTable
 	delete(cache.body, key1st)
 	// remove from CacheOrder
@@ -148,7 +148,7 @@ func (cache Cache) Delete(key1st string) {
 /*
  * DeleteBy2ndKey
  */
-func (cache Cache) DeleteBy2ndKey(key2nd string) {
+func (cache BiKeyCache) DeleteBy2ndKey(key2nd string) {
   key1st, isExist := cache.bikeys[key2nd]
 	if isExist {
     cache.Delete(key1st)
@@ -160,7 +160,7 @@ func (cache Cache) DeleteBy2ndKey(key2nd string) {
 /*
  * Dump1stKeys : 
  */
-func (cache Cache) Dump1stKeys() {
+func (cache BiKeyCache) Dump1stKeys() {
 	log.Println("*** Dump 1st Cache Keys ***")
 	for key1st, _ := range cache.body {
 		log.Println(key1st)
@@ -171,7 +171,7 @@ func (cache Cache) Dump1stKeys() {
 /*
  * Dump2ndKeys : 
  */
-func (cache Cache) Dump2ndKeys() {
+func (cache BiKeyCache) Dump2ndKeys() {
 	log.Println("*** Dump 2nd Cache Keys ***")
 	for key2nd, _ := range cache.bikeys {
 		log.Println(key2nd)
