@@ -96,7 +96,7 @@ func (cache BiKeyCache) AddOrReplaceWith2ndKey(key1st string, key2nd string, ent
 func (cache BiKeyCache) Get(key string) (result interface{}, isExist bool) {
 	result, isExist = cache.body[key]
 	if isExist {
-		fmt.Println("cache hit!")
+		log.Println("cache hit!")
 		// remove ex CacheOrder
 		for i, id := range cache.fifo {
 			if id == key {
