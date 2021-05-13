@@ -28,6 +28,8 @@ func NewBiKeyCache(maxSize int) (*BiKeyCache, error) {
 	cache := BiKeyCache{} // initialize
 	cache.maxSize = maxSize
 	cache.body = map[string]interface{}{}
+	cache.bikeys = map[string]string{}
+	cache.bikeysreverse = map[string]string{}
 	return &cache, nil
 }
 
