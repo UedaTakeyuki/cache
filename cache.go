@@ -13,7 +13,7 @@ import (
 )
 
 type Cache struct {
-	maxSize int64
+	maxSize int
 	body    map[interface{}]interface{}
 	fifo    []interface{}
 }
