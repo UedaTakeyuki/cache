@@ -10,6 +10,7 @@ package cache
 
 import (
 	"fmt"
+	"log"
 )
 
 type Cache struct {
@@ -40,12 +41,15 @@ func (cache Cache) AddOrReplace(key interface{}, entity interface{}) interface{}
 		}
 	} else if len(cache.body) > cache.maxSize {
 		// delete oldest
+		log.Println("len(cache.fifo)", cache.fifo)
 		delete(cache.body, cache.fifo[0])
 		cache.fifo = cache.fifo[1:]
 	}
 	// add (or replace) new one
 	cache.body[key] = entity
 	cache.fifo = append(cache.fifo, key)
+	log.Println("len(cache.body)", cache.body)
+	log.Println("len(cache.fifo)", cache.fifo)
 
 	return entity
 }
