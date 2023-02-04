@@ -23,6 +23,7 @@ func NewCache(maxSize int) (*Cache, error) {
 	cache := Cache{} // initialize
 	cache.maxSize = maxSize
 	cache.body = map[interface{}]interface{}{}
+	cache.fifo = []interface{}{}
 	return &cache, nil
 }
 
