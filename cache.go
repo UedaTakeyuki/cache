@@ -23,7 +23,6 @@ func NewCache(maxSize int) (*Cache, error) {
 	cache := Cache{} // initialize
 	cache.maxSize = maxSize
 	cache.body = map[interface{}]interface{}{}
-	cache.fifo = make([]interface{}, maxSize)
 	return &cache, nil
 }
 
@@ -36,7 +35,10 @@ func (cache Cache) AddOrReplace(key interface{}, entity interface{}) interface{}
 		// remove ex CacheOrder
 		for i, id := range cache.fifo {
 			if id == key {
+				log.Println("cache.fifo", cache.fifo)
+				// get rid of cache.fifo[i]
 				cache.fifo = append(cache.fifo[:i], cache.fifo[i+1:]...)
+				log.Println("cache.fifo", cache.fifo)
 				break
 			}
 		}
@@ -48,9 +50,9 @@ func (cache Cache) AddOrReplace(key interface{}, entity interface{}) interface{}
 	}
 	// add (or replace) new one
 	cache.body[key] = entity
+	log.Println("cache.fifo", cache.fifo)
 	cache.fifo = append(cache.fifo, key)
-	log.Println("len(cache.body)", cache.body)
-	log.Println("len(cache.fifo)", cache.fifo)
+	log.Println("cache.fifo", cache.fifo)
 
 	return entity
 }
@@ -66,12 +68,16 @@ func (cache Cache) Get(key interface{}) (result interface{}, isExist bool) {
 		for i, id := range cache.fifo {
 			if id == key {
 				// get rid of cache[i]
+				log.Println("cache.fifo", cache.fifo)
 				cache.fifo = append(cache.fifo[:i], cache.fifo[i+1:]...)
+				log.Println("cache.fifo", cache.fifo)
 				break
 			}
 		}
 		// add bottom CacheOrder
+		log.Println("cache.fifo", cache.fifo)
 		cache.fifo = append(cache.fifo, key)
+		log.Println("cache.fifo", cache.fifo)
 	}
 	return
 }
@@ -85,7 +91,10 @@ func (cache Cache) Delete(key interface{}) {
 	// remove from CacheOrder
 	for i, id := range cache.fifo {
 		if id == key {
+			log.Println("cache.fifo", cache.fifo)
+			// get rid of cache.fifo[i]
 			cache.fifo = append(cache.fifo[:i], cache.fifo[i+1:]...)
+			log.Println("cache.fifo", cache.fifo)
 			break
 		}
 	}
