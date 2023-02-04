@@ -17,12 +17,14 @@ type Cache struct {
 	maxSize int
 	body    map[interface{}]interface{}
 	fifo    []interface{}
+	debug   bool
 }
 
-func NewCache(maxSize int) (*Cache, error) {
+func NewCache(maxSize int, debug bool) (*Cache, error) {
 	cache := Cache{} // initialize
 	cache.maxSize = maxSize
 	cache.body = map[interface{}]interface{}{}
+	cache.debug = debug
 	return &cache, nil
 }
 
@@ -49,8 +51,10 @@ func (cache *Cache) AddOrReplace(key interface{}, entity interface{}) interface{
 	cache.body[key] = entity
 	cache.fifo = append(cache.fifo, key)
 
-	cache.DumpBody()
-	cache.DumpFifo()
+	if cache.debug {
+		cache.DumpBody()
+		cache.DumpFifo()
+	}
 
 	return entity
 }
@@ -74,8 +78,10 @@ func (cache *Cache) Get(key interface{}) (result interface{}, isExist bool) {
 		cache.fifo = append(cache.fifo, key)
 	}
 
-	cache.DumpBody()
-	cache.DumpFifo()
+	if cache.debug {
+		cache.DumpBody()
+		cache.DumpFifo()
+	}
 
 	return
 }
@@ -95,8 +101,10 @@ func (cache *Cache) Delete(key interface{}) {
 		}
 	}
 
-	cache.DumpBody()
-	cache.DumpFifo()
+	if cache.debug {
+		cache.DumpBody()
+		cache.DumpFifo()
+	}
 
 	return
 }
