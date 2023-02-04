@@ -23,6 +23,7 @@ func NewCache(maxSize int) (*Cache, error) {
 	cache := Cache{} // initialize
 	cache.maxSize = maxSize
 	cache.body = map[interface{}]interface{}{}
+	cache.fifo = make([]interface{}, maxSize)
 	return &cache, nil
 }
 
@@ -64,9 +65,8 @@ func (cache Cache) Get(key interface{}) (result interface{}, isExist bool) {
 		// remove ex CacheOrder
 		for i, id := range cache.fifo {
 			if id == key {
-				// move cache[i] to last
+				// get rid of cache[i]
 				cache.fifo = append(cache.fifo[:i], cache.fifo[i+1:]...)
-				cache.fifo = append(cache.fifo, key)
 				break
 			}
 		}
