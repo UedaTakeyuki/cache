@@ -65,7 +65,9 @@ func (cache Cache) Get(key interface{}) (result interface{}, isExist bool) {
 		// remove ex CacheOrder
 		for i, id := range cache.fifo {
 			if id == key {
-				cache.fifo = append(cache.fifo[:i], cache.fifo[i+1:]..., cache.fifo[i])
+				// move cache[i] to last
+				cache.fifo = append(cache.fifo[:i], cache.fifo[i+1:]...)
+				cache.fifo = append(cache.fifo, key)
 				break
 			}
 		}
