@@ -10,7 +10,6 @@ package cache
 
 import (
 	"fmt"
-	"log"
 )
 
 type Cache struct {
@@ -35,24 +34,19 @@ func (cache *Cache) AddOrReplace(key interface{}, entity interface{}) interface{
 		// remove ex CacheOrder
 		for i, id := range cache.fifo {
 			if id == key {
-				log.Println("cache.fifo", cache.fifo)
 				// get rid of cache.fifo[i]
 				cache.fifo = append(cache.fifo[:i], cache.fifo[i+1:]...)
-				log.Println("cache.fifo", cache.fifo)
 				break
 			}
 		}
 	} else if len(cache.body) > cache.maxSize {
 		// delete oldest
-		log.Println("len(cache.fifo)", cache.fifo)
 		delete(cache.body, cache.fifo[0])
 		cache.fifo = cache.fifo[1:]
 	}
 	// add (or replace) new one
 	cache.body[key] = entity
-	log.Println("cache.fifo", cache.fifo)
 	cache.fifo = append(cache.fifo, key)
-	log.Println("cache.fifo", cache.fifo)
 
 	return entity
 }
@@ -68,16 +62,12 @@ func (cache *Cache) Get(key interface{}) (result interface{}, isExist bool) {
 		for i, id := range cache.fifo {
 			if id == key {
 				// get rid of cache[i]
-				log.Println("cache.fifo", cache.fifo)
 				cache.fifo = append(cache.fifo[:i], cache.fifo[i+1:]...)
-				log.Println("cache.fifo", cache.fifo)
 				break
 			}
 		}
 		// add bottom CacheOrder
-		log.Println("cache.fifo", cache.fifo)
 		cache.fifo = append(cache.fifo, key)
-		log.Println("cache.fifo", cache.fifo)
 	}
 	return
 }
@@ -91,10 +81,8 @@ func (cache *Cache) Delete(key interface{}) {
 	// remove from CacheOrder
 	for i, id := range cache.fifo {
 		if id == key {
-			log.Println("cache.fifo", cache.fifo)
 			// get rid of cache.fifo[i]
 			cache.fifo = append(cache.fifo[:i], cache.fifo[i+1:]...)
-			log.Println("cache.fifo", cache.fifo)
 			break
 		}
 	}
