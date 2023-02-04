@@ -10,6 +10,7 @@ package cache
 
 import (
 	"fmt"
+	"log"
 )
 
 type Cache struct {
@@ -48,6 +49,11 @@ func (cache *Cache) AddOrReplace(key interface{}, entity interface{}) interface{
 	cache.body[key] = entity
 	cache.fifo = append(cache.fifo, key)
 
+	log.Println("len(cache.body)", "len(cache.body)")
+	log.Println("cache.body", cache.body)
+	log.Println("len(cache.fifo)", "len(cache.fifo)")
+	log.Println("cache.fifo", cache.fifo)
+
 	return entity
 }
 
@@ -69,6 +75,12 @@ func (cache *Cache) Get(key interface{}) (result interface{}, isExist bool) {
 		// add bottom CacheOrder
 		cache.fifo = append(cache.fifo, key)
 	}
+
+	log.Println("len(cache.body)", "len(cache.body)")
+	log.Println("cache.body", cache.body)
+	log.Println("len(cache.fifo)", "len(cache.fifo)")
+	log.Println("cache.fifo", cache.fifo)
+
 	return
 }
 
@@ -86,6 +98,13 @@ func (cache *Cache) Delete(key interface{}) {
 			break
 		}
 	}
+
+	log.Println("len(cache.body)", "len(cache.body)")
+	log.Println("cache.body", cache.body)
+	log.Println("len(cache.fifo)", "len(cache.fifo)")
+	log.Println("cache.fifo", cache.fifo)
+
+	return
 }
 
 /*
