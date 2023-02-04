@@ -49,10 +49,8 @@ func (cache *Cache) AddOrReplace(key interface{}, entity interface{}) interface{
 	cache.body[key] = entity
 	cache.fifo = append(cache.fifo, key)
 
-	log.Println("len(cache.body)", "len(cache.body)")
-	log.Println("cache.body", cache.body)
-	log.Println("len(cache.fifo)", "len(cache.fifo)")
-	log.Println("cache.fifo", cache.fifo)
+	cache.DumpBody()
+	cache.DumpFifo()
 
 	return entity
 }
@@ -76,10 +74,8 @@ func (cache *Cache) Get(key interface{}) (result interface{}, isExist bool) {
 		cache.fifo = append(cache.fifo, key)
 	}
 
-	log.Println("len(cache.body)", "len(cache.body)")
-	log.Println("cache.body", cache.body)
-	log.Println("len(cache.fifo)", "len(cache.fifo)")
-	log.Println("cache.fifo", cache.fifo)
+	cache.DumpBody()
+	cache.DumpFifo()
 
 	return
 }
@@ -99,10 +95,8 @@ func (cache *Cache) Delete(key interface{}) {
 		}
 	}
 
-	log.Println("len(cache.body)", "len(cache.body)")
-	log.Println("cache.body", cache.body)
-	log.Println("len(cache.fifo)", "len(cache.fifo)")
-	log.Println("cache.fifo", cache.fifo)
+	cache.DumpBody()
+	cache.DumpFifo()
 
 	return
 }
@@ -111,9 +105,25 @@ func (cache *Cache) Delete(key interface{}) {
  * DumpKeys
  */
 func (cache *Cache) DumpKeys() {
-	fmt.Println("*** Dump Cache Keys ***")
+	log.Println("*** Dump Cache Keys ***")
 	for key, _ := range cache.body {
-		fmt.Println(key)
+		log.Println(key)
 	}
-	fmt.Println("***********************")
+	log.Println("***********************")
+}
+
+/*
+ * DumpBody
+ */
+func (cache *Cache) DumpBody() {
+	log.Println("len(cache.body)", len(cache.body))
+	log.Println("cache.body", cache.body)
+}
+
+/*
+ * DumpFifo
+ */
+func (cache *Cache) DumpFifo() {
+	log.Println("len(cache.fifo)", len(cache.fifo))
+	log.Println("cache.fifo", cache.fifo)
 }
