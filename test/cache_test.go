@@ -19,16 +19,16 @@ func Test_01(t *testing.T) {
 	{
 		val, exist := c.Get(1)
 		cp.Compare(t, val, "a")
-		cp.Compare(t, exist, "true")
+		cp.Compare(t, exist, true)
 	}
 	c.AddOrReplace(4, "d")
 	{
 		_, exist := c.Get(1)
 		// should be exist
-		cp.Compare(t, exist, "true")
+		cp.Compare(t, exist, true)
 		// should not be exist, already deleted.
 		_, exist = c.Get(2)
-		cp.Compare(t, exist, "false")
+		cp.Compare(t, exist, false)
 		val, _ := c.Get(4)
 		cp.Compare(t, val, "d")
 	}
