@@ -1,6 +1,7 @@
 package cache
 
 import (
+	"log"
 	"testing"
 
 	cp "github.com/UedaTakeyuki/compare"
@@ -8,6 +9,7 @@ import (
 )
 
 func Test_01(t *testing.T) {
+	log.SetFlags(log.LstdFlags | log.Lmicroseconds | log.Lshortfile)
 	c, err := cache.NewCache(3, true)
 	cp.Compare(t, err, nil)
 	{
