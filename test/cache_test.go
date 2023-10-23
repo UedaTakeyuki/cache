@@ -35,5 +35,4 @@ func Test_01(t *testing.T) {
 		cp.Compare(t, val, "d")
 	}
 	c.AddOrReplace(5, "e")
-
 }

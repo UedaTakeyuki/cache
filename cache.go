@@ -116,6 +116,11 @@ func (cache *Cache) Delete(key interface{}) {
 	return
 }
 
+// destructive, only use for read, DONT WRITE
+func (cache *Cache) PullValueMap() (valueMap map[interface{}]interface{}) {
+	return cache.body
+}
+
 /*
  * mskr fifoElm
  */
