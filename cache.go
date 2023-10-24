@@ -121,6 +121,22 @@ func (cache *Cache) PullValueMap() (valueMap map[interface{}]interface{}) {
 	return cache.body
 }
 
+// https://zenn.dev/toriwasa/articles/c7428879d624cd
+func (cache *Cache) GetNextFunc() func() interface{} {
+	i := -1
+
+	return func() interface{} {
+		i++
+		if i < len(cache.body) {
+			value, _ := cache.body[cache.fifo[i].id]
+			log.Println("value", value)
+			return value
+		} else {
+			return nil
+		}
+	}
+}
+
 /*
  * mskr fifoElm
  */

@@ -8,6 +8,7 @@ import (
 	"local.packages/cache"
 )
 
+// AddOrReplace, Get
 func Test_01(t *testing.T) {
 	log.SetFlags(log.LstdFlags | log.Lmicroseconds | log.Lshortfile)
 	c, err := cache.NewCache(3, true)
@@ -35,4 +36,28 @@ func Test_01(t *testing.T) {
 		cp.Compare(t, val, "d")
 	}
 	c.AddOrReplace(5, "e")
+}
+
+// getNextFunc
+func Test_02(t *testing.T) {
+	log.SetFlags(log.LstdFlags | log.Lmicroseconds | log.Lshortfile)
+	c, err := cache.NewCache(3, true)
+	cp.Compare(t, err, nil)
+	{
+		val := c.AddOrReplace(1, "a")
+		cp.Compare(t, val, "a")
+	}
+	{
+		val := c.AddOrReplace(2, "b")
+		cp.Compare(t, val, "b")
+	}
+	{
+		val := c.AddOrReplace(3, "c")
+		cp.Compare(t, val, "c")
+	}
+	getNext := c.GetNextFunc()
+	cp.Compare(t, getNext(), "a")
+	cp.Compare(t, getNext(), "b")
+	cp.Compare(t, getNext(), "c")
+	cp.Compare(t, getNext(), nil)
 }
